@@ -15,12 +15,9 @@ export default function Nav() {
   return (
     <nav className={`nav${scrolled ? " scrolled" : ""}`}>
       <div className="wrap nav-in">
-        <a href="#topo" className="brand">
+        <span className="brand">
           Fabricio Gonçalvez <span>· Comunidade</span>
-        </a>
-        <a href="#entrar" className="nav-link">
-          Entrar
-        </a>
+        </span>
       </div>
     </nav>
   );
