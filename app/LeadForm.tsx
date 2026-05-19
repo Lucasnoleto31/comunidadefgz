@@ -4,7 +4,11 @@ import { useEffect, useRef, useState } from "react";
 
 type Status = "idle" | "loading" | "success" | "error";
 
-const WHATSAPP_URL = process.env.NEXT_PUBLIC_WHATSAPP_URL || "";
+// Link de convite da Comunidade (público por natureza). Env var se
+// existir; senão, este padrão — evita depender de config do painel.
+const WHATSAPP_URL =
+  process.env.NEXT_PUBLIC_WHATSAPP_URL ||
+  "https://chat.whatsapp.com/GIXWd7ctS7nKrbNSJceanc";
 
 const TRADES = [
   { v: "", l: "Selecione" },

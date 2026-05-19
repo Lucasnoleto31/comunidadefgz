@@ -44,7 +44,12 @@ export async function POST(req: NextRequest) {
     if (typeof v === "string" && v.length) form.set(key, v.slice(0, 500));
   }
 
-  const webhook = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
+  // Endpoint do Apps Script. É um Web App público ("qualquer pessoa"),
+  // protegido pelo próprio script (honeypot, rate limit, dedupe, CPF) —
+  // não é segredo. Usa a env var se existir; senão, este padrão.
+  const webhook =
+    process.env.GOOGLE_SHEETS_WEBHOOK_URL ||
+    "https://script.google.com/macros/s/AKfycbziVFGcq9rYUqVE3KrunkMszljNuApGit2KH4UXwXe15QZnQYrGGQlGwqCep_obqkSF/exec";
 
   // Sem webhook ainda: não bloqueia o usuário (segue para o WhatsApp).
   if (!webhook) {
