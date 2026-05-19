@@ -234,7 +234,7 @@ p {
 
 .hero h1 em {
   font-style: normal;
-  color: var(--text-2);
+  color: var(--accent);
 }
 
 .hero-sub {
