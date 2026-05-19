@@ -8,12 +8,13 @@
 
 :root {
   --bg: #0a0a0b;
-  --bg-elev: #0e0e10;
-  --line: rgba(255, 255, 255, 0.08);
-  --line-strong: rgba(255, 255, 255, 0.14);
-  --text: #ededed;
-  --text-2: #a1a1aa;
-  --text-3: #6a6a73;
+  --bg-elev: #121216;
+  --line: rgba(255, 255, 255, 0.1);
+  --line-strong: rgba(255, 255, 255, 0.16);
+  --text: #f2f2f3;
+  --text-2: #abadb6;
+  --text-3: #74757e;
+  --red: #e5564b;
   --accent: #3ecf8e;
   --accent-ink: #04140c;
   --accent-hover: #34b87c;
@@ -34,7 +35,19 @@ html {
 }
 
 body {
-  background: var(--bg);
+  background:
+    radial-gradient(
+      1100px 560px at 50% -8%,
+      rgba(62, 207, 142, 0.07),
+      transparent 62%
+    ),
+    radial-gradient(
+      900px 600px at 92% 8%,
+      rgba(120, 140, 255, 0.04),
+      transparent 60%
+    ),
+    linear-gradient(180deg, #101015, var(--bg) 34%);
+  background-attachment: fixed;
   color: var(--text);
   font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
@@ -168,19 +181,19 @@ p {
   right: -8%;
   top: 50%;
   transform: translateY(-50%);
-  width: min(720px, 56%);
-  height: 78%;
-  opacity: 0.65;
+  width: min(760px, 60%);
+  height: 80%;
+  opacity: 0.9;
 }
 
 .candle-wick {
-  stroke: rgba(255, 255, 255, 0.16);
+  stroke: rgba(255, 255, 255, 0.26);
   stroke-width: 1;
 }
 
 .candle-body {
-  fill: rgba(255, 255, 255, 0.05);
-  stroke: rgba(255, 255, 255, 0.12);
+  fill: rgba(255, 255, 255, 0.09);
+  stroke: rgba(255, 255, 255, 0.2);
   stroke-width: 1;
   transform-box: fill-box;
   transform-origin: center;
@@ -188,8 +201,8 @@ p {
 }
 
 .candle-body.up {
-  fill: rgba(62, 207, 142, 0.06);
-  stroke: rgba(62, 207, 142, 0.18);
+  fill: rgba(62, 207, 142, 0.16);
+  stroke: rgba(62, 207, 142, 0.42);
 }
 
 @keyframes breathe {
@@ -716,11 +729,15 @@ section.s.slim {
 
 /* Close */
 .close {
+  position: relative;
+  overflow: hidden;
   padding: 128px 0;
   border-top: 1px solid var(--line);
 }
 
 .close-grid {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: 1fr 0.82fr;
   gap: 72px;
@@ -786,9 +803,177 @@ footer {
   }
 }
 
+/* ---------- TICKER (fita de cotações) ---------- */
+.ticker {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.012);
+  overflow: hidden;
+  position: relative;
+}
+
+.ticker::before,
+.ticker::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 90px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.ticker::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--bg), transparent);
+}
+
+.ticker::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--bg), transparent);
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker 46s linear infinite;
+}
+
+.ticker:hover .ticker-track {
+  animation-play-state: paused;
+}
+
+.tick-row {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.tick {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 9px;
+  padding: 13px 26px;
+  font-size: 0.82rem;
+  white-space: nowrap;
+  border-right: 1px solid var(--line);
+}
+
+.tick-s {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text);
+}
+
+.tick-v {
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.tick-c {
+  font-size: 0.76rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.tick-c.up {
+  color: var(--accent);
+}
+
+.tick-c.dn {
+  color: var(--red);
+}
+
+@keyframes ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ---------- REVEAL (dobras) ---------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  will-change: opacity, transform;
+}
+
+[data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+[data-reveal][data-reveal-delay="1"] {
+  transition-delay: 0.08s;
+}
+[data-reveal][data-reveal-delay="2"] {
+  transition-delay: 0.16s;
+}
+[data-reveal][data-reveal-delay="3"] {
+  transition-delay: 0.24s;
+}
+
+/* ---------- LINHA DE GRÁFICO (motivo trader) ---------- */
+.chartline {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+}
+
+.chartline svg {
+  position: absolute;
+  left: 0;
+  bottom: 8%;
+  width: 100%;
+  height: 64%;
+  opacity: 0.5;
+}
+
+.chartline .area {
+  fill: url(#fgzArea);
+  opacity: 0;
+  transition: opacity 1.1s ease 0.5s;
+}
+
+.chartline .stroke {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.close.is-in .chartline .stroke {
+  transition: stroke-dashoffset 2s var(--ease) 0.2s;
+  stroke-dashoffset: 0;
+}
+
+.close.is-in .chartline .area {
+  opacity: 1;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .candle-body {
+  .candle-body,
+  .ticker-track {
     animation: none;
+  }
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .chartline .stroke {
+    stroke-dashoffset: 0;
+  }
+  .chartline .area {
+    opacity: 1;
   }
   html {
     scroll-behavior: auto;

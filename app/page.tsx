@@ -2,6 +2,9 @@ import Image from "next/image";
 import LeadForm from "./LeadForm";
 import Nav from "./Nav";
 import Candles from "./Candles";
+import Ticker from "./Ticker";
+import ScrollFX from "./ScrollFX";
+import { SITE_URL } from "./layout";
 
 function Check() {
   return (
@@ -92,9 +95,57 @@ const FAQ = [
   },
 ];
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: "Comunidade FGZ",
+      inLanguage: "pt-BR",
+      publisher: { "@id": `${SITE_URL}/#org` },
+    },
+    {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#org`,
+      name: "Comunidade FGZ",
+      url: SITE_URL,
+      logo: `${SITE_URL}/icon.svg`,
+      founder: { "@id": `${SITE_URL}/#fabricio` },
+    },
+    {
+      "@type": "Person",
+      "@id": `${SITE_URL}/#fabricio`,
+      name: "Fabricio Gonçalvez",
+      jobTitle: "Trader profissional",
+      description:
+        "Trader profissional com mais de 17 anos de mercado, 5º lugar no Top Traders InfoMoney 2025, sócio da Genial Investimentos e criador das estratégias Alaska & Square.",
+      worksFor: { "@type": "Organization", name: "Genial Investimentos" },
+      sameAs: [
+        "https://www.instagram.com/fabricio_goncalvez/",
+        "https://www.youtube.com/c/fabriciogoncalvez",
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${SITE_URL}/#faq`,
+      mainEntity: FAQ.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ],
+};
+
 export default function Home() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Nav />
 
       <main id="topo">
@@ -130,12 +181,20 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ---------- FITA DE COTAÇÕES ---------- */}
+        <Ticker />
+
         {/* ---------- CREDIBILIDADE ---------- */}
         <section className="s slim">
           <div className="wrap">
-            <div className="facts">
-              {FACTS.map((f) => (
-                <div className="fact" key={f.k}>
+            <div className="facts" data-reveal>
+              {FACTS.map((f, i) => (
+                <div
+                  className="fact"
+                  key={f.k}
+                  data-reveal
+                  data-reveal-delay={(i % 3) + 1}
+                >
                   <div className="v">{f.v}</div>
                   <div className="k">{f.k}</div>
                 </div>
@@ -147,8 +206,10 @@ export default function Home() {
         {/* ---------- QUEM É ---------- */}
         <section className="s">
           <div className="wrap s-label">
-            <div className="kicker">Quem é</div>
-            <div className="bio">
+            <div className="kicker" data-reveal>
+              Quem é
+            </div>
+            <div className="bio" data-reveal data-reveal-delay="1">
               <div className="portrait">
                 <Image
                   src="/fabricio.jpg"
@@ -185,7 +246,7 @@ export default function Home() {
         {/* ---------- O QUE VOCÊ ACOMPANHA ---------- */}
         <section className="s">
           <div className="wrap s-label">
-            <div>
+            <div data-reveal>
               <div className="kicker">Dentro</div>
               <h2 style={{ marginTop: 14, fontSize: "1.6rem" }}>
                 O que você acompanha
@@ -193,7 +254,12 @@ export default function Home() {
             </div>
             <div className="list">
               {LIST.map((item, i) => (
-                <div className="row" key={item.t}>
+                <div
+                  className="row"
+                  key={item.t}
+                  data-reveal
+                  data-reveal-delay={(i % 3) + 1}
+                >
                   <div className="idx">{String(i + 1).padStart(2, "0")}</div>
                   <div>
                     <h3>{item.t}</h3>
@@ -208,13 +274,13 @@ export default function Home() {
         {/* ---------- PRA QUEM É ---------- */}
         <section className="s">
           <div className="wrap s-label">
-            <div>
+            <div data-reveal>
               <div className="kicker">Honestidade</div>
               <h2 style={{ marginTop: 14, fontSize: "1.6rem" }}>
                 Pra quem é, e pra quem não é
               </h2>
             </div>
-            <div className="fit">
+            <div className="fit" data-reveal data-reveal-delay="1">
               <div className="fit-col">
                 <h3>É pra você se</h3>
                 <ul>
@@ -256,8 +322,10 @@ export default function Home() {
         {/* ---------- FAQ ---------- */}
         <section className="s">
           <div className="wrap s-label">
-            <div className="kicker">Dúvidas</div>
-            <div className="faq">
+            <div className="kicker" data-reveal>
+              Dúvidas
+            </div>
+            <div className="faq" data-reveal data-reveal-delay="1">
               {FAQ.map((item) => (
                 <details key={item.q}>
                   <summary>
@@ -272,21 +340,42 @@ export default function Home() {
         </section>
 
         {/* ---------- FECHAMENTO ---------- */}
-        <section className="close">
+        <section className="close" data-reveal>
+          <div className="chartline" aria-hidden="true">
+            <svg viewBox="0 0 1200 300" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="fgzArea" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#3ecf8e" stopOpacity="0.16" />
+                  <stop offset="100%" stopColor="#3ecf8e" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              <path
+                className="area"
+                d="M0,232 80,212 140,236 210,190 280,206 350,158 430,180 500,128 580,150 660,108 740,128 820,84 900,104 980,66 1060,88 1140,48 1200,62 1200,300 0,300 Z"
+              />
+              <path
+                className="stroke"
+                pathLength={1}
+                d="M0,232 80,212 140,236 210,190 280,206 350,158 430,180 500,128 580,150 660,108 740,128 820,84 900,104 980,66 1060,88 1140,48 1200,62"
+              />
+            </svg>
+          </div>
           <div className="wrap close-grid">
-            <div>
+            <div data-reveal>
               <h2>Fique perto de quem está no topo</h2>
               <p>
                 A entrada é gratuita e leva menos de um minuto. Entre na
                 comunidade e comece a acompanhar o Fabricio hoje.
               </p>
             </div>
-            <div className="panel">
+            <div className="panel" data-reveal data-reveal-delay="1">
               <LeadForm idPrefix="close" />
             </div>
           </div>
         </section>
       </main>
+
+      <ScrollFX />
 
       <footer>
         <div className="wrap">

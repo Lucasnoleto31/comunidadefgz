@@ -17,25 +17,45 @@ const serif = Newsreader({
   display: "swap",
 });
 
-const SITE_URL = "https://comunidadefgz.com.br";
+// URL pública indexável. Quando o domínio próprio entrar, defina
+// NEXT_PUBLIC_SITE_URL=https://comunidadefgz.com.br nas envs.
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://comunidadefgz.vercel.app";
+
+const TITLE = "Comunidade FGZ · Fabricio Gonçalvez";
+const DESC =
+  "Entre na comunidade oficial do Fabricio Gonçalvez — 5º no Top Traders InfoMoney 2025 e sócio da Genial Investimentos. Acompanhe de perto análises, setups de mini índice e a rotina real de quem vive do mercado. Entrada gratuita pelo WhatsApp.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Comunidade FGZ · Fabricio Gonçalvez | Entre e acompanhe de perto",
-  description:
-    "Entre na comunidade oficial do Fabricio Gonçalvez, 5º lugar no Top Traders InfoMoney 2025 e sócio da Genial Investimentos. Acompanhe de perto análises, setups e a rotina real de quem vive do mercado.",
+  title: {
+    default: `${TITLE} | Entre e acompanhe de perto`,
+    template: `%s | ${TITLE}`,
+  },
+  description: DESC,
+  applicationName: "Comunidade FGZ",
+  authors: [{ name: "Fabricio Gonçalvez" }],
+  creator: "Fabricio Gonçalvez",
+  publisher: "Comunidade FGZ",
+  category: "finance",
   keywords: [
     "Fabricio Gonçalvez",
     "comunidade FGZ",
+    "Fabricio Gonçalvez comunidade",
     "trader mini índice",
     "Alaska Square",
     "day trade",
     "Top Traders InfoMoney",
+    "Genial Investimentos",
+    "trader Brasil",
+    "comunidade de traders WhatsApp",
   ],
+  alternates: { canonical: "/" },
+  formatDetection: { telephone: false, email: false, address: false },
   openGraph: {
-    title: "Comunidade FGZ · Fabricio Gonçalvez",
+    title: TITLE,
     description:
-      "Acompanhe de perto análises, setups e a rotina real de um dos melhores traders do Brasil. Entrada gratuita pela comunidade no WhatsApp.",
+      "Acompanhe de perto análises, setups de mini índice e a rotina real de um dos melhores traders do Brasil. Entrada gratuita pela comunidade no WhatsApp.",
     url: SITE_URL,
     siteName: "Comunidade FGZ",
     locale: "pt_BR",
@@ -43,15 +63,26 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Comunidade FGZ · Fabricio Gonçalvez",
+    title: TITLE,
     description:
-      "Acompanhe de perto análises, setups e a rotina real de um dos melhores traders do Brasil.",
+      "Análises, setups de mini índice e a rotina real de um dos melhores traders do Brasil. Entrada gratuita no WhatsApp.",
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0b0d",
+  themeColor: "#0a0a0b",
+  colorScheme: "dark",
   width: "device-width",
   initialScale: 1,
 };
