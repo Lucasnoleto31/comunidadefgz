@@ -42,11 +42,12 @@ Conectar a planilha: siga
 
 ## Deploy na Vercel
 
-1. Suba este projeto para o GitHub (repo `comunidadefgz`).
-2. Em <https://vercel.com/new>, importe o repositório.
-   - Se este projeto estiver numa subpasta, defina **Root Directory =
-     `site`** nas configurações de build.
-3. Em **Settings → Environment Variables**, adicione as 3 variáveis.
+1. Repositório: `Lucasnoleto31/comunidadefgz` (a raiz do repo já é este
+   projeto Next.js).
+2. Em <https://vercel.com/new>, importe o repositório. **Root Directory
+   = `./`** (padrão — não é subpasta). Framework: Next.js (autodetectado).
+3. Em **Environment Variables**, adicione as 2 variáveis
+   (`NEXT_PUBLIC_WHATSAPP_URL`, `GOOGLE_SHEETS_WEBHOOK_URL`).
 4. Deploy. Aponte seu domínio (ex.: `comunidadefgz.com.br`) em
    **Settings → Domains**.
 
