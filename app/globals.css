@@ -321,31 +321,6 @@ p {
   opacity: 0.55;
 }
 
-/* Benefícios rápidos no card do formulário */
-.benefits-mini {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin: 4px 0 22px;
-  padding: 14px 16px;
-  background: rgba(62, 207, 142, 0.04);
-  border: 1px solid rgba(62, 207, 142, 0.16);
-  border-radius: 10px;
-}
-
-.benefits-mini li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.9rem;
-  color: var(--text-2);
-}
-
-.benefits-mini li svg {
-  color: var(--accent);
-  flex-shrink: 0;
-}
 
 .cred-line {
   margin-top: 36px;

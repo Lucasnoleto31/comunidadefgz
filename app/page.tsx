@@ -5,20 +5,6 @@ import Candles from "./Candles";
 import Ticker from "./Ticker";
 import { SITE_URL } from "./layout";
 
-function Check() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
-      <path
-        d="M20 6 9 17l-5-5"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
@@ -105,8 +91,6 @@ export default function Home() {
                 <span className="seen-label">Visto em</span>
                 <span>InfoMoney</span>
                 <i className="dotsep" />
-                <span>BTG Pactual</span>
-                <i className="dotsep" />
                 <span>Genial</span>
                 <i className="dotsep" />
                 <span>Nelogica</span>
@@ -118,17 +102,6 @@ export default function Home() {
               <div className="panel-sub">
                 Gratuito. Vagas por ordem de chegada.
               </div>
-              <ul className="benefits-mini" aria-label="Você recebe">
-                <li>
-                  <Check /> Análises e setups todos os dias
-                </li>
-                <li>
-                  <Check /> A rotina real de quem vive disso
-                </li>
-                <li>
-                  <Check /> Avisos oficiais e contato direto
-                </li>
-              </ul>
               <LeadForm idPrefix="hero" />
             </div>
           </div>
