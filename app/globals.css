@@ -248,50 +248,70 @@ p {
   line-height: 1.6;
 }
 
-/* Chip de identidade — humaniza o hero */
-.who {
+/* Capa editorial — retrato + biline. Linguagem de revista. */
+.cover {
   display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 28px;
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: 40px;
 }
 
-.who-avatar {
+.cover-frame {
   position: relative;
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
+  width: 168px;
+  aspect-ratio: 4 / 5;
+  border-radius: 12px;
   overflow: hidden;
   border: 1px solid var(--line-strong);
+  background: var(--bg-elev);
   flex-shrink: 0;
-  box-shadow: 0 0 0 4px rgba(62, 207, 142, 0.08);
+  box-shadow: 0 28px 60px -32px rgba(0, 0, 0, 0.75);
 }
 
-.who-avatar img {
+.cover-frame img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 22%;
+  object-position: 50% 18%;
 }
 
-.who-meta {
+.cover-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 62%, rgba(10, 10, 11, 0.55));
+  pointer-events: none;
+}
+
+.cover-caption {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
+  padding-bottom: 10px;
   min-width: 0;
 }
 
-.who-name {
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--text);
+.cover-eyebrow {
+  font-family: var(--font-serif), Georgia, serif;
+  font-style: italic;
+  font-size: 0.84rem;
+  color: var(--text-3);
+  letter-spacing: 0;
 }
 
-.who-role {
-  font-size: 0.85rem;
+.cover-name {
+  font-size: 1.18rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  line-height: 1.15;
+}
+
+.cover-title {
+  font-size: 0.9rem;
   color: var(--text-2);
-  line-height: 1.35;
+  line-height: 1.45;
+  max-width: 32ch;
 }
 
 /* Linha "Visto em" — prova social institucional */
@@ -1116,18 +1136,27 @@ footer {
     padding: 16px 20px;
     font-size: 1rem;
   }
-  .who {
-    margin-bottom: 22px;
+  .cover {
+    gap: 16px;
+    margin-bottom: 28px;
   }
-  .who-avatar {
-    width: 60px;
-    height: 60px;
+  .cover-frame {
+    width: 124px;
+    border-radius: 10px;
   }
-  .who-name {
-    font-size: 0.95rem;
+  .cover-caption {
+    padding-bottom: 4px;
+    gap: 4px;
   }
-  .who-role {
-    font-size: 0.8rem;
+  .cover-eyebrow {
+    font-size: 0.78rem;
+  }
+  .cover-name {
+    font-size: 1rem;
+  }
+  .cover-title {
+    font-size: 0.82rem;
+    line-height: 1.4;
   }
   .hero h1 {
     margin: 14px 0 16px;

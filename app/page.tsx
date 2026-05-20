@@ -54,20 +54,22 @@ export default function Home() {
           <Candles />
           <div className="wrap hero-grid">
             <div>
-              <div className="who rise">
-                <div className="who-avatar">
+              <div className="cover rise">
+                <div className="cover-frame">
                   <Image
                     src="/fabricio.jpg"
                     alt="Fabricio Gonçalvez"
-                    width={80}
-                    height={80}
+                    width={168}
+                    height={210}
+                    sizes="(max-width: 620px) 130px, 168px"
                     priority
                   />
                 </div>
-                <div className="who-meta">
-                  <div className="who-name">Fabricio Gonçalvez</div>
-                  <div className="who-role">
-                    Trader profissional · Sócio Genial Investimentos
+                <div className="cover-caption">
+                  <div className="cover-eyebrow">O trader</div>
+                  <div className="cover-name">Fabricio Gonçalvez</div>
+                  <div className="cover-title">
+                    Trader profissional, sócio da Genial Investimentos.
                   </div>
                 </div>
               </div>
