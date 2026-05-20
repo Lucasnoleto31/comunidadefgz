@@ -24,7 +24,7 @@ export const SITE_URL =
 
 const TITLE = "Comunidade FGZ · Fabricio Gonçalvez";
 const DESC =
-  "Entre na comunidade oficial do Fabricio Gonçalvez — 5º no Top Traders InfoMoney 2025 e sócio da Genial Investimentos. Acompanhe de perto análises, setups de mini índice e a rotina real de quem vive do mercado. Entrada gratuita pelo WhatsApp.";
+  "Entre na comunidade oficial do Fabricio Gonçalvez, 5º no Top Traders InfoMoney 2025 e sócio da Genial Investimentos. Acompanhe de perto análises, setups de mini índice e a rotina real de 20 anos de mercado. Entrada gratuita pelo WhatsApp.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

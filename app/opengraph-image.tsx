@@ -122,7 +122,7 @@ export default function OpengraphImage() {
           <span>·</span>
           <span>Sócio da Genial Investimentos</span>
           <span>·</span>
-          <span>17 anos de mercado</span>
+          <span>20 anos de mercado</span>
         </div>
       </div>
     ),
