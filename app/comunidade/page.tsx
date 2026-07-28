@@ -1,0 +1,126 @@
+import Image from "next/image";
+import LeadForm from "@/app/LeadForm";
+import Nav from "@/app/Nav";
+import Candles from "@/app/Candles";
+import Ticker from "@/app/Ticker";
+import { SITE_URL } from "@/app/layout";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: "Comunidade FGZ",
+      inLanguage: "pt-BR",
+      publisher: { "@id": `${SITE_URL}/#org` },
+    },
+    {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#org`,
+      name: "Comunidade FGZ",
+      url: SITE_URL,
+      logo: `${SITE_URL}/icon.svg`,
+      founder: { "@id": `${SITE_URL}/#fabricio` },
+    },
+    {
+      "@type": "Person",
+      "@id": `${SITE_URL}/#fabricio`,
+      name: "Fabricio Gonçalvez",
+      jobTitle: "Trader profissional",
+      description:
+        "Trader profissional com 20 anos de mercado, 5º lugar no Top Traders InfoMoney 2025, sócio da Genial Investimentos e criador das estratégias Alaska & Square.",
+      worksFor: { "@type": "Organization", name: "Genial Investimentos" },
+      sameAs: [
+        "https://www.instagram.com/fabricio_goncalvez/",
+        "https://www.youtube.com/c/fabriciogoncalvez",
+      ],
+    },
+  ],
+};
+
+export default function Home() {
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <Nav />
+
+      <main>
+        <section className="hero">
+          <Candles />
+          <div className="wrap hero-grid">
+            <div>
+              <div className="cover rise">
+                <div className="cover-frame">
+                  <Image
+                    src="/fabricio.jpg"
+                    alt="Fabricio Gonçalvez"
+                    width={168}
+                    height={210}
+                    sizes="(max-width: 620px) 130px, 168px"
+                    priority
+                  />
+                </div>
+                <div className="cover-caption">
+                  <div className="cover-eyebrow">O trader</div>
+                  <div className="cover-name">Fabricio Gonçalvez</div>
+                  <div className="cover-title">
+                    Trader profissional, sócio da Genial Investimentos.
+                  </div>
+                </div>
+              </div>
+
+              <h1 className="rise-2">
+                Acompanhe de perto um dos melhores traders do{" "}
+                <em>Brasil</em>
+              </h1>
+              <p className="hero-sub rise-3">
+                As análises, os setups de mini índice e a rotina sem filtro do
+                Fabricio Gonçalvez, direto no seu WhatsApp e de graça.
+              </p>
+              <div className="cred-line rise-3">
+                <span>5º no Top Traders InfoMoney 2025</span>
+                <i className="sep" />
+                <span>20 anos de mercado</span>
+                <i className="sep" />
+                <span>Alaska &amp; Square</span>
+              </div>
+              <div className="seen-on rise-3" aria-label="Presença na mídia">
+                <span className="seen-label">Visto em</span>
+                <span>InfoMoney</span>
+                <i className="dotsep" />
+                <span>Genial</span>
+                <i className="dotsep" />
+                <span>Nelogica</span>
+              </div>
+            </div>
+
+            <div className="panel rise-2" id="entrar">
+              <div className="panel-head">Entre na comunidade</div>
+              <div className="panel-sub">
+                Gratuito. Vagas por ordem de chegada.
+              </div>
+              <LeadForm idPrefix="hero" />
+            </div>
+          </div>
+        </section>
+
+        <Ticker />
+      </main>
+
+      <footer>
+        <div className="wrap">
+          <p className="disclaimer">
+            Conteúdo educacional e informativo, sem recomendação ou garantia de
+            resultado. Operações no mercado financeiro envolvem risco de perda.
+            © {new Date().getFullYear()} Comunidade FGZ · Fabricio Gonçalvez.
+          </p>
+        </div>
+      </footer>
+    </>
+  );
+}

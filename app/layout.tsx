@@ -50,13 +50,13 @@ export const metadata: Metadata = {
     "trader Brasil",
     "comunidade de traders WhatsApp",
   ],
-  alternates: { canonical: "/" },
+  alternates: { canonical: "/comunidade" },
   formatDetection: { telephone: false, email: false, address: false },
   openGraph: {
     title: TITLE,
     description:
       "Acompanhe de perto análises, setups de mini índice e a rotina real de um dos melhores traders do Brasil. Entrada gratuita pela comunidade no WhatsApp.",
-    url: SITE_URL,
+    url: `${SITE_URL}/comunidade`,
     siteName: "Comunidade FGZ",
     locale: "pt_BR",
     type: "website",

@@ -27,6 +27,29 @@ const BROKERS = [
   { v: "outra", l: "Outra" },
 ];
 
+// Lê os parâmetros UTM da URL (?utm_source=instagram&utm_medium=stories...)
+// e guarda em sessionStorage: se a pessoa navegar pelo site antes de
+// preencher o formulário, a origem do clique não se perde.
+function readUtm(): { source: string; medium: string; campaign: string } {
+  const empty = { source: "", medium: "", campaign: "" };
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const fromUrl = {
+      source: (params.get("utm_source") || "").slice(0, 100),
+      medium: (params.get("utm_medium") || "").slice(0, 100),
+      campaign: (params.get("utm_campaign") || "").slice(0, 100),
+    };
+    if (fromUrl.source || fromUrl.medium || fromUrl.campaign) {
+      sessionStorage.setItem("fgz_utm", JSON.stringify(fromUrl));
+      return fromUrl;
+    }
+    const stored = sessionStorage.getItem("fgz_utm");
+    return stored ? { ...empty, ...JSON.parse(stored) } : empty;
+  } catch {
+    return empty;
+  }
+}
+
 function formatPhone(value: string): string {
   const d = value.replace(/\D/g, "").slice(0, 11);
   if (d.length <= 2) return d.length ? `(${d}` : d;
@@ -74,13 +97,19 @@ export default function LeadForm({ idPrefix = "hero" }: { idPrefix?: string }) {
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [serverError, setServerError] = useState("");
-  const meta = useRef({ url: "", referrer: "", userAgent: "" });
+  const meta = useRef({
+    url: "",
+    referrer: "",
+    userAgent: "",
+    utm: { source: "", medium: "", campaign: "" },
+  });
 
   useEffect(() => {
     meta.current = {
       url: window.location.href,
       referrer: document.referrer || "",
       userAgent: navigator.userAgent || "",
+      utm: readUtm(),
     };
   }, []);
 
@@ -131,6 +160,9 @@ export default function LeadForm({ idPrefix = "hero" }: { idPrefix?: string }) {
           url: meta.current.url,
           referrer: meta.current.referrer,
           userAgent: meta.current.userAgent,
+          utmSource: meta.current.utm.source,
+          utmMedium: meta.current.utm.medium,
+          utmCampaign: meta.current.utm.campaign,
         }),
       });
       const json = await res.json().catch(() => ({ ok: false }));

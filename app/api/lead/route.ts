@@ -28,6 +28,9 @@ const FIELDS = [
   "url",
   "referrer",
   "userAgent",
+  "utmSource",
+  "utmMedium",
+  "utmCampaign",
 ];
 
 export async function POST(req: NextRequest) {

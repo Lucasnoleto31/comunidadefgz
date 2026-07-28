@@ -28,6 +28,9 @@ const HEADERS = [
   'URL da página',
   'Referrer',
   'User Agent',
+  'Canal (utm_source)',    // youtube | instagram | ...
+  'Mídia (utm_medium)',    // video | stories | bio | ...
+  'Campanha (utm_campaign)',
 ];
 
 /**
@@ -105,6 +108,13 @@ function doPost(e) {
         .setBackground('#0B0E11')
         .setFontColor('#26E07F');
       sheet.setFrozenRows(1);
+    } else if (sheet.getLastColumn() < HEADERS.length) {
+      // Planilha antiga sem as colunas novas (ex.: UTM): estende o cabeçalho.
+      sheet.getRange(1, 1, 1, HEADERS.length)
+        .setValues([HEADERS])
+        .setFontWeight('bold')
+        .setBackground('#0B0E11')
+        .setFontColor('#26E07F');
     }
 
     sheet.appendRow([
@@ -122,6 +132,9 @@ function doPost(e) {
       String(data.url || ''),
       String(data.referrer || ''),
       String(data.userAgent || ''),
+      String(data.utmSource || ''),
+      String(data.utmMedium || ''),
+      String(data.utmCampaign || ''),
     ]);
 
     // Auto-resize ocasional pra manter as colunas legíveis.
