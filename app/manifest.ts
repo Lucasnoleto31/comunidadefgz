@@ -8,10 +8,10 @@ export default function manifest(): MetadataRoute.Manifest {
       "Canal gratuito do Fabricio Gonçalvez no WhatsApp: análises e setups de mini índice.",
     start_url: "/comunidade",
     display: "standalone",
-    background_color: "#f3eee4",
-    theme_color: "#f3eee4",
+    background_color: "#0b0b0b",
+    theme_color: "#1c1c1c",
     icons: [
-      { src: "/icon.svg", sizes: "any", type: "image/svg+xml" },
+      { src: "/icon", sizes: "64x64", type: "image/png" },
       { src: "/apple-icon", sizes: "180x180", type: "image/png" },
     ],
   };

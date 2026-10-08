@@ -1,26 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, IBM_Plex_Sans, Newsreader } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 
-const serif = Newsreader({
+// Ficha padrão: uma família só. Bold em título e número, Regular no
+// corpo, Light no subtítulo ao lado do título.
+const poppins = Poppins({
   subsets: ["latin"],
-  style: ["normal", "italic"],
-  axes: ["opsz"],
-  variable: "--font-newsreader",
-  display: "swap",
-});
-
-const sans = IBM_Plex_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-plex-sans",
-  display: "swap",
-});
-
-const mono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-plex-mono",
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-poppins",
   display: "swap",
 });
 
@@ -31,10 +18,10 @@ export const SITE_URL =
 
 const TITLE = "Canal do Fabricio Gonçalvez no WhatsApp | Comunidade FGZ";
 const DESC =
-  "Análises, setups de mini índice e a rotina real do 5º colocado no Top Traders InfoMoney 2025. Entre grátis no canal do Fabricio Gonçalvez no WhatsApp.";
+  "Canal gratuito do Fabricio Gonçalvez no WhatsApp: análises e setups de mini índice de quem ficou em 5º no Top Traders InfoMoney 2025, com 20 anos de mercado.";
 const SHARE_TITLE = "Fabricio Gonçalvez no seu WhatsApp";
 const SHARE_DESC =
-  "20 anos de mercado, 5º no Top Traders InfoMoney 2025. Análises e setups de mini índice no canal gratuito da Comunidade FGZ.";
+  "5º no Top Traders InfoMoney 2025 e 20 anos de mercado. Análises e setups de mini índice, de graça, no WhatsApp.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -87,8 +74,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f3eee4",
-  colorScheme: "light",
+  themeColor: "#1c1c1c",
+  colorScheme: "light dark",
   width: "device-width",
   initialScale: 1,
 };
@@ -101,7 +88,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`${serif.variable} ${sans.variable} ${mono.variable}`}
+      className={poppins.variable}
     >
       <body>{children}</body>
     </html>

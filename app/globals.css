@@ -1,44 +1,67 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Comunidade FGZ — sistema visual editorial
-   Papel e tinta, como um caderno de economia impresso.
-   Serifa (Newsreader) para títulos, Plex Sans para texto,
-   Plex Mono para números e rótulos. Um único acento: o verde
-   do candle de alta, usado só em ação e destaque.
+   Comunidade FGZ · ficha padrão do kit de design (07/10/2026)
+   Monocromático: a tinta faz o destaque, sem acento cromático.
+   Uma família (Poppins). Chapado: separação por tom e espaço.
+   Capa e narrativa no escuro esfumaçado, dado no claro.
+   Raio: controle 10 · painel 12 · folha 16 · chip 8 · célula 6.
    ============================================================ */
 
-@theme {
-  --color-paper: #f3eee4;
-  --color-paper-2: #e9e2d4;
-  --color-paper-3: #ded5c3;
-  --color-ink: #15120e;
-  --color-ink-2: #3b352d;
-  --color-muted: #6c6457;
-  --color-rule: #cbc0ac;
-  --color-cover: #2a2928;
-  --color-green: #17633f;
-  --color-green-2: #0f4a2e;
-  --color-green-light: #3fae74;
-  --color-red: #a8361f;
+:root {
+  --bg: #ffffff;
+  --card: #f3f3f3;
+  --popover: #ffffff;
+  --fg: #111111;
+  --muted: #555555;
+  --subtle: #7a7a7a; /* só em texto grande: 4,3:1 */
+  --border: #e4e4e4;
+  --error: #b22222;
+}
 
-  /* tokens usados pelos componentes shadcn */
-  --color-muted-foreground: #6c6457;
-  --color-ring: #17633f;
-
-  --font-serif: var(--font-newsreader), Georgia, "Times New Roman", serif;
-  --font-sans: var(--font-plex-sans), system-ui, sans-serif;
-  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
-
-  --animate-marquee: marquee var(--duration) infinite linear;
-  --animate-accordion-down: accordion-down 0.28s cubic-bezier(0.22, 1, 0.36, 1);
-  --animate-accordion-up: accordion-up 0.22s cubic-bezier(0.22, 1, 0.36, 1);
-  --animate-rise: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
-
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(calc(-100% - var(--gap))); }
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b0b0b;
+    --card: #151515;
+    --popover: #1a1a1a;
+    --fg: #f5f5f5;
+    --muted: #9e9e9e;
+    --border: #262626;
+    --error: #e04848;
   }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-card: var(--card);
+  --color-popover: var(--popover);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-border: var(--border);
+  --color-error: var(--error);
+
+  /* seções escuras: iguais nos dois temas */
+  --color-night: #080808;
+  --color-night-2: #2a2a2a;
+  --color-night-fg: #f5f5f5;
+  --color-night-muted: #d0d0d0;
+  --color-night-line: #3a3a3a;
+
+  /* tokens usados pelo accordion do shadcn */
+  --color-muted-foreground: var(--muted);
+  --color-ring: var(--fg);
+
+  --font-sans: var(--font-poppins), system-ui, sans-serif;
+
+  --radius-chip: 8px;
+  --radius-control: 10px;
+  --radius-panel: 12px;
+  --radius-sheet: 16px;
+
+  --animate-accordion-down: accordion-down 180ms cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-accordion-up: accordion-up 180ms cubic-bezier(0.22, 1, 0.36, 1);
+
   @keyframes accordion-down {
     from { height: 0; }
     to { height: var(--radix-accordion-content-height); }
@@ -47,10 +70,6 @@
     from { height: var(--radix-accordion-content-height); }
     to { height: 0; }
   }
-  @keyframes rise {
-    from { opacity: 0; transform: translateY(14px); }
-    to { opacity: 1; transform: none; }
-  }
 }
 
 @layer base {
@@ -58,127 +77,163 @@
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
   }
+  /* Papéis do sistema: corpo 17/22 no telefone, 14/20 do tablet para cima. */
   body {
-    background: var(--color-paper);
-    color: var(--color-ink);
+    background: var(--bg);
+    color: var(--fg);
     font-family: var(--font-sans);
-    font-size: 1.0625rem;
-    line-height: 1.6;
+    font-size: 17px;
+    line-height: 22px;
     -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
+  }
+  @media (min-width: 768px) {
+    body {
+      font-size: 14px;
+      line-height: 20px;
+    }
+  }
+  h1, h2, h3 {
+    letter-spacing: -0.02em;
   }
   ::selection {
-    background: var(--color-ink);
-    color: var(--color-paper);
+    background: var(--fg);
+    color: var(--bg);
   }
   :focus-visible {
-    outline: 2px solid var(--color-green);
+    outline: 2px solid currentColor;
     outline-offset: 3px;
   }
 }
 
 @layer components {
-  /* Textura de papel: grão finíssimo, sem imagem externa. */
-  .grain {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.08 0 0 0 0 0.07 0 0 0 0 0.05 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  .tnum {
+    font-variant-numeric: tabular-nums;
   }
 
-  .kicker {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+  /* Capa e divisor: esfumaçado de #080808 a #2A2A2A. */
+  .smoke {
+    background: linear-gradient(160deg, #2a2a2a 0%, #141414 46%, #080808 100%);
+    color: #f5f5f5;
   }
 
-  /* Capitular editorial */
-  .dropcap::first-letter {
-    float: left;
-    font-family: var(--font-serif);
-    font-size: 4.6em;
-    line-height: 0.82;
-    padding: 0.06em 0.1em 0 0;
-    color: var(--color-ink);
+  /* ---------- Botões: tinta no claro, invertido no escuro ---------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    width: 100%;
+    min-height: 52px;
+    margin-top: 0.5rem;
+    padding: 0 1.4rem;
+    border: 0;
+    border-radius: var(--radius-control);
+    background: var(--fg);
+    color: var(--bg);
+    font: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 120ms ease, opacity 180ms ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn:hover {
+    opacity: 0.88;
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: progress;
+  }
+  .btn-light {
+    background: #f5f5f5;
+    color: #111111;
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--fg);
+    box-shadow: inset 0 0 0 1.5px var(--fg);
   }
 
   /* ---------- Ficha de inscrição (LeadForm) ---------- */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    column-gap: 12px;
+  }
+  @media (min-width: 520px) {
+    .form-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .form-grid .span-2 {
+      grid-column: span 2;
+    }
+  }
   .field {
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
-    margin-bottom: 0.95rem;
+    gap: 6px;
+    margin-bottom: 14px;
   }
   .field label {
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--color-muted);
+    font-size: 13px;
+    line-height: 18px;
+    font-weight: 500;
+    color: var(--muted);
   }
   .field input,
   .field select {
     width: 100%;
+    min-height: 48px;
     appearance: none;
-    background: transparent;
     border: 0;
-    border-bottom: 1.5px solid var(--color-rule);
-    border-radius: 0;
-    padding: 0.45rem 0 0.5rem;
+    border-radius: var(--radius-control);
+    background: var(--popover);
+    padding: 0 14px;
     font: inherit;
-    font-size: 1.05rem;
-    color: var(--color-ink);
-    transition: border-color 0.2s;
+    font-size: 16px; /* 16px evita o zoom do iOS ao focar */
+    color: var(--fg);
   }
   .field input::placeholder {
-    color: #a59c8c;
+    color: var(--subtle);
   }
   .field input:focus,
   .field select:focus {
-    outline: none;
-    border-bottom-color: var(--color-ink);
+    outline: 2px solid var(--fg);
+    outline-offset: 0;
   }
   .field select {
     cursor: pointer;
-    padding-right: 1.6rem;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4.5 6 8l4-3.5' fill='none' stroke='%236c6457' stroke-width='1.4'/%3E%3C/svg%3E");
+    padding-right: 36px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4.5 6 8l4-3.5' fill='none' stroke='%237a7a7a' stroke-width='1.5'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
-    background-position: right 0.15rem center;
+    background-position: right 14px center;
   }
   .field select[data-empty="true"] {
-    color: #a59c8c;
+    color: var(--subtle);
   }
   .field select option {
-    color: var(--color-ink);
+    color: #111111;
   }
   .field [aria-invalid="true"] {
-    border-bottom-color: var(--color-red);
+    outline: 1.5px solid var(--error);
+    outline-offset: 0;
   }
   .field-error {
-    font-size: 0.82rem;
-    color: var(--color-red);
-  }
-  .form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 1.25rem;
-  }
-  .form-grid .span-2 {
-    grid-column: span 2;
-  }
-  @media (max-width: 480px) {
-    .form-grid {
-      grid-template-columns: 1fr;
-    }
-    .form-grid .span-2 {
-      grid-column: auto;
-    }
+    font-size: 13px;
+    line-height: 18px;
+    color: var(--error);
   }
   .form-error-box {
-    border-left: 3px solid var(--color-red);
-    background: #f6e3dc;
-    color: #6f2112;
-    padding: 0.7rem 0.9rem;
-    font-size: 0.92rem;
-    margin-bottom: 1rem;
+    border-radius: var(--radius-control);
+    background: var(--popover);
+    color: var(--error);
+    padding: 12px 14px;
+    font-size: 14px;
+    margin-bottom: 14px;
   }
   .hp {
     position: absolute;
@@ -187,73 +242,26 @@
     height: 1px;
     overflow: hidden;
   }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.6rem;
-    width: 100%;
-    margin-top: 0.6rem;
-    padding: 1.05rem 1.4rem;
-    background: var(--color-green);
-    color: #fbf8f2;
-    border: 0;
-    border-radius: 2px;
-    font: inherit;
-    font-weight: 600;
-    font-size: 1.02rem;
-    letter-spacing: 0.01em;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.2s;
-    box-shadow: 0 1px 0 var(--color-green-2), 0 10px 24px -14px rgba(15, 74, 46, 0.7);
-  }
-  .btn:hover {
-    background: var(--color-green-2);
-  }
-  .btn:active {
-    transform: translateY(1px);
-  }
-  .btn:disabled {
-    opacity: 0.7;
-    cursor: progress;
-  }
-  .btn svg {
-    transition: transform 0.25s;
-  }
-  .btn:hover svg {
-    transform: translateX(3px);
-  }
-  .btn-ghost {
-    background: transparent;
-    color: var(--color-ink);
-    border: 1.5px solid var(--color-ink);
-    box-shadow: none;
-  }
-  .btn-ghost:hover {
-    background: var(--color-ink);
-    color: var(--color-paper);
-  }
   .spinner {
     width: 16px;
     height: 16px;
     border-radius: 999px;
-    border: 2px solid rgba(255, 255, 255, 0.35);
-    border-top-color: #fff;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
     animation: spin 0.7s linear infinite;
   }
   @keyframes spin {
     to { transform: rotate(360deg); }
   }
   .form-note {
-    margin-top: 0.85rem;
-    font-size: 0.8rem;
-    color: var(--color-muted);
+    margin-top: 12px;
+    font-size: 13px;
+    line-height: 18px;
+    color: var(--muted);
     text-align: center;
   }
   .form-success {
-    text-align: center;
-    padding: 1.5rem 0.5rem;
+    padding: 8px 0;
   }
   .form-success .mark {
     display: inline-grid;
@@ -261,20 +269,19 @@
     width: 44px;
     height: 44px;
     border-radius: 999px;
-    background: var(--color-green);
-    color: #fff;
-    margin-bottom: 0.9rem;
+    background: var(--fg);
+    color: var(--bg);
+    margin-bottom: 14px;
   }
   .form-success h3 {
-    font-family: var(--font-serif);
-    font-size: 1.9rem;
-    font-weight: 500;
-    line-height: 1.1;
-    margin-bottom: 0.5rem;
+    font-size: 22px;
+    line-height: 28px;
+    font-weight: 600;
+    margin-bottom: 6px;
   }
   .form-success p {
-    color: var(--color-ink-2);
-    margin-bottom: 1.2rem;
+    color: var(--muted);
+    margin-bottom: 16px;
   }
 }
 

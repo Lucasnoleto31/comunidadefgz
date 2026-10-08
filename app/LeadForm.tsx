@@ -173,7 +173,7 @@ export default function LeadForm({ idPrefix = "hero" }: { idPrefix?: string }) {
         name: "Confira o nome informado.",
         phone: "Confira o WhatsApp informado.",
         cpf: "Confira o CPF informado.",
-        source: "Não foi possível identificar a origem. Recarregue a página.",
+        source: "A página ficou desatualizada. Recarregue e envie de novo.",
       };
       if (json.ok || json.error === "duplicate") {
         setStatus("success");
@@ -191,7 +191,7 @@ export default function LeadForm({ idPrefix = "hero" }: { idPrefix?: string }) {
     } catch {
       setStatus("error");
       setServerError(
-        "Não conseguimos registrar agora. Tente de novo em instantes."
+        "A conexão não respondeu. Confira a internet e tente de novo."
       );
     }
   }
@@ -340,21 +340,10 @@ export default function LeadForm({ idPrefix = "hero" }: { idPrefix?: string }) {
       <button className="btn" type="submit" disabled={loading}>
         {loading ? (
           <>
-            <span className="spinner" aria-hidden /> Entrando
+            <span className="spinner" aria-hidden /> Enviando…
           </>
         ) : (
-          <>
-            Quero entrar no canal
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M5 12h14m-6-6 6 6-6 6"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </>
+          "Entrar no canal"
         )}
       </button>
 
