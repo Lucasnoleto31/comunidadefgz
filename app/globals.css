@@ -215,8 +215,13 @@
   .field select[data-empty="true"] {
     color: var(--subtle);
   }
+  /* As opções seguem o tema: tinta e fundo de popover, nos dois temas. */
   .field select option {
-    color: #111111;
+    color: var(--fg);
+    background: var(--popover);
+  }
+  .field select option:disabled {
+    color: var(--muted);
   }
   .field [aria-invalid="true"] {
     outline: 1.5px solid var(--error);
