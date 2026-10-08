@@ -1,36 +1,46 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Newsreader } from "next/font/google";
+import { IBM_Plex_Mono, IBM_Plex_Sans, Newsreader } from "next/font/google";
 import "./globals.css";
-
-const sans = Inter({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-sans",
-  display: "swap",
-});
 
 const serif = Newsreader({
   subsets: ["latin"],
-  weight: ["400"],
-  style: ["italic", "normal"],
-  variable: "--font-serif",
+  style: ["normal", "italic"],
+  axes: ["opsz"],
+  variable: "--font-newsreader",
   display: "swap",
 });
 
-// URL pública indexável. Quando o domínio próprio entrar, defina
-// NEXT_PUBLIC_SITE_URL=https://comunidadefgz.com.br nas envs.
+const sans = IBM_Plex_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-plex-sans",
+  display: "swap",
+});
+
+const mono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-plex-mono",
+  display: "swap",
+});
+
+// URL pública indexável. Quando o domínio próprio apontar para a Vercel,
+// defina NEXT_PUBLIC_SITE_URL nas envs.
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://comunidadefgz.vercel.app";
 
-const TITLE = "Comunidade FGZ · Fabricio Gonçalvez";
+const TITLE = "Canal do Fabricio Gonçalvez no WhatsApp | Comunidade FGZ";
 const DESC =
-  "Entre na comunidade oficial do Fabricio Gonçalvez, 5º no Top Traders InfoMoney 2025 e sócio da Genial Investimentos. Acompanhe de perto análises, setups de mini índice e a rotina real de 20 anos de mercado. Entrada gratuita pelo WhatsApp.";
+  "Análises, setups de mini índice e a rotina real do 5º colocado no Top Traders InfoMoney 2025. Entre grátis no canal do Fabricio Gonçalvez no WhatsApp.";
+const SHARE_TITLE = "Fabricio Gonçalvez no seu WhatsApp";
+const SHARE_DESC =
+  "20 anos de mercado, 5º no Top Traders InfoMoney 2025. Análises e setups de mini índice no canal gratuito da Comunidade FGZ.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${TITLE} | Entre e acompanhe de perto`,
-    template: `%s | ${TITLE}`,
+    default: TITLE,
+    template: "%s | Comunidade FGZ",
   },
   description: DESC,
   applicationName: "Comunidade FGZ",
@@ -40,22 +50,19 @@ export const metadata: Metadata = {
   category: "finance",
   keywords: [
     "Fabricio Gonçalvez",
-    "comunidade FGZ",
-    "Fabricio Gonçalvez comunidade",
-    "trader mini índice",
-    "Alaska Square",
+    "Comunidade FGZ",
+    "canal WhatsApp trader",
+    "mini índice",
     "day trade",
+    "Alaska Square",
     "Top Traders InfoMoney",
     "Genial Investimentos",
-    "trader Brasil",
-    "comunidade de traders WhatsApp",
   ],
   alternates: { canonical: "/comunidade" },
   formatDetection: { telephone: false, email: false, address: false },
   openGraph: {
-    title: TITLE,
-    description:
-      "Acompanhe de perto análises, setups de mini índice e a rotina real de um dos melhores traders do Brasil. Entrada gratuita pela comunidade no WhatsApp.",
+    title: SHARE_TITLE,
+    description: SHARE_DESC,
     url: `${SITE_URL}/comunidade`,
     siteName: "Comunidade FGZ",
     locale: "pt_BR",
@@ -63,9 +70,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: TITLE,
-    description:
-      "Análises, setups de mini índice e a rotina real de um dos melhores traders do Brasil. Entrada gratuita no WhatsApp.",
+    title: SHARE_TITLE,
+    description: SHARE_DESC,
   },
   robots: {
     index: true,
@@ -81,8 +87,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0a0b",
-  colorScheme: "dark",
+  themeColor: "#f3eee4",
+  colorScheme: "light",
   width: "device-width",
   initialScale: 1,
 };
@@ -93,7 +99,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" className={`${sans.variable} ${serif.variable}`}>
+    <html
+      lang="pt-BR"
+      className={`${serif.variable} ${sans.variable} ${mono.variable}`}
+    >
       <body>{children}</body>
     </html>
   );

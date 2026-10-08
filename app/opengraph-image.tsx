@@ -1,25 +1,35 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
 export const alt =
-  "Comunidade FGZ · Fabricio Gonçalvez — entre e acompanhe de perto";
+  "Fabricio Gonçalvez no seu WhatsApp — canal gratuito da Comunidade FGZ";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-// Candles ilustrativos no fundo (determinístico).
-const CANDLES = [
-  { h: 70, y: 360, up: false },
-  { h: 120, y: 300, up: true },
-  { h: 60, y: 380, up: false },
-  { h: 150, y: 250, up: true },
-  { h: 90, y: 330, up: false },
-  { h: 180, y: 210, up: true },
-  { h: 70, y: 350, up: false },
-  { h: 140, y: 260, up: true },
-  { h: 100, y: 300, up: false },
-  { h: 200, y: 190, up: true },
-];
+const HEADLINE = "Acompanhe de perto um dos melhores traders do Brasil.";
 
-export default function OpengraphImage() {
+// Carrega a Newsreader (serifa da página) só com os glifos usados.
+// Se a busca falhar no build, a imagem sai com a fonte padrão.
+async function loadSerif(text: string): Promise<ArrayBuffer | null> {
+  try {
+    const css = await (
+      await fetch(
+        `https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@72,400&text=${encodeURIComponent(text)}`
+      )
+    ).text();
+    const url = css.match(/src: url\((.+?)\) format\('(opentype|truetype)'\)/)?.[1];
+    return url ? await (await fetch(url)).arrayBuffer() : null;
+  } catch {
+    return null;
+  }
+}
+
+export default async function OpengraphImage() {
+  const portrait = await readFile(join(process.cwd(), "app/og-portrait.jpg"));
+  const src = `data:image/jpeg;base64,${portrait.toString("base64")}`;
+  const serif = await loadSerif(`Comunidade FGZ${HEADLINE}`);
+
   return new ImageResponse(
     (
       <div
@@ -27,105 +37,85 @@ export default function OpengraphImage() {
           width: "100%",
           height: "100%",
           display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          background:
-            "radial-gradient(900px 500px at 75% 0%, rgba(62,207,142,0.16), transparent 60%), #0a0a0b",
-          padding: "72px 80px",
-          fontFamily: "sans-serif",
-          position: "relative",
+          background: "#f3eee4",
+          color: "#15120e",
         }}
       >
-        {/* candles ao fundo, à direita */}
         <div
           style={{
-            position: "absolute",
-            right: 60,
-            top: 120,
+            flex: 1,
             display: "flex",
-            alignItems: "flex-end",
-            gap: 18,
-            opacity: 0.5,
+            flexDirection: "column",
+            justifyContent: "space-between",
+            padding: "56px 64px",
           }}
         >
-          {CANDLES.map((c, i) => (
-            <div
-              key={i}
-              style={{
-                display: "flex",
-                width: 26,
-                height: c.h,
-                borderRadius: 4,
-                background: c.up
-                  ? "rgba(62,207,142,0.22)"
-                  : "rgba(255,255,255,0.06)",
-                border: c.up
-                  ? "1px solid rgba(62,207,142,0.5)"
-                  : "1px solid rgba(255,255,255,0.16)",
-              }}
-            />
-          ))}
-        </div>
-
-        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <div
             style={{
               display: "flex",
-              width: 12,
-              height: 12,
-              borderRadius: 99,
-              background: "#3ecf8e",
+              justifyContent: "space-between",
+              alignItems: "flex-end",
+              borderBottom: "2px solid #15120e",
+              paddingBottom: 14,
             }}
+          >
+            <span style={{ fontFamily: "Serif", fontSize: 44 }}>
+              Comunidade FGZ
+            </span>
+            <span style={{ fontSize: 18, letterSpacing: 3, color: "#6c6457" }}>
+              CANAL · WHATSAPP
+            </span>
+          </div>
+
+          <div
+            style={{
+              fontFamily: "Serif",
+              fontSize: 70,
+              lineHeight: 1.02,
+              letterSpacing: -1.5,
+            }}
+          >
+            {HEADLINE}
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              gap: 14,
+              fontSize: 20,
+              whiteSpace: "nowrap",
+              color: "#3b352d",
+              borderTop: "1px solid #cbc0ac",
+              paddingTop: 16,
+            }}
+          >
+            <span style={{ color: "#17633f", fontWeight: 600 }}>
+              5º Top Traders InfoMoney 2025
+            </span>
+            <span>·</span>
+            <span>20 anos de mercado</span>
+            <span>·</span>
+            <span>Gratuito</span>
+          </div>
+        </div>
+
+        <div style={{ display: "flex", width: 430, height: "100%" }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={src}
+            width={430}
+            height={630}
+            alt=""
+            style={{ objectFit: "cover", width: 430, height: 630 }}
           />
-          <div
-            style={{
-              fontSize: 26,
-              color: "#abadb6",
-              letterSpacing: 2,
-              textTransform: "uppercase",
-            }}
-          >
-            Comunidade · WhatsApp
-          </div>
-        </div>
-
-        <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
-          <div
-            style={{
-              fontSize: 82,
-              fontWeight: 700,
-              color: "#f2f2f3",
-              lineHeight: 1.05,
-              letterSpacing: -2,
-              maxWidth: 880,
-            }}
-          >
-            Acompanhe de perto um dos melhores traders do Brasil
-          </div>
-          <div style={{ fontSize: 34, color: "#abadb6" }}>
-            Fabricio Gonçalvez
-          </div>
-        </div>
-
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 20,
-            fontSize: 24,
-            color: "#74757e",
-          }}
-        >
-          <span style={{ color: "#3ecf8e" }}>
-            5º Top Traders InfoMoney 2025
-          </span>
-          <span>·</span>
-          <span>Sócio da Genial Investimentos</span>
-          <span>·</span>
-          <span>20 anos de mercado</span>
         </div>
       </div>
     ),
-    { ...size }
+    {
+      ...size,
+      fonts: serif
+        ? [{ name: "Serif", data: serif, weight: 400, style: "normal" }]
+        : undefined,
+    }
   );
 }

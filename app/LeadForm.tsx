@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 type Status = "idle" | "loading" | "success" | "error";
 
-// Link de convite da Comunidade (público por natureza). Env var se
+// Link do canal no WhatsApp (público por natureza). Env var se
 // existir; senão, este padrão — evita depender de config do painel.
 const WHATSAPP_URL =
   process.env.NEXT_PUBLIC_WHATSAPP_URL ||
@@ -210,13 +210,14 @@ export default function LeadForm({ idPrefix = "hero" }: { idPrefix?: string }) {
             />
           </svg>
         </div>
-        <h3>Você está dentro</h3>
+        <h3>Inscrição feita.</h3>
         <p>
-          Estamos te levando para a comunidade do Fabricio no WhatsApp. Se nada
-          acontecer em alguns segundos, use o botão abaixo.
+          Estamos abrindo o canal do Fabricio no WhatsApp. Toque em
+          <strong> Seguir</strong> para começar a receber. Se nada acontecer em
+          alguns segundos, use o botão abaixo.
         </p>
         <button className="btn btn-ghost" type="button" onClick={goToWhatsApp}>
-          Abrir a comunidade no WhatsApp
+          Abrir o canal no WhatsApp
         </button>
       </div>
     );
@@ -229,7 +230,8 @@ export default function LeadForm({ idPrefix = "hero" }: { idPrefix?: string }) {
     <form onSubmit={onSubmit} noValidate>
       {serverError && <div className="form-error-box">{serverError}</div>}
 
-      <div className="field">
+      <div className="form-grid">
+      <div className="field span-2">
         <label htmlFor={`${p}-name`}>Nome</label>
         <input
           id={`${p}-name`}
@@ -287,7 +289,7 @@ export default function LeadForm({ idPrefix = "hero" }: { idPrefix?: string }) {
       </div>
 
       <div className="field">
-        <label htmlFor={`${p}-trades`}>Você já opera no mercado?</label>
+        <label htmlFor={`${p}-trades`}>Já opera no mercado?</label>
         <select
           id={`${p}-trades`}
           value={trades}
@@ -304,7 +306,7 @@ export default function LeadForm({ idPrefix = "hero" }: { idPrefix?: string }) {
         {errors.trades && <div className="field-error">{errors.trades}</div>}
       </div>
 
-      <div className="field">
+      <div className="field span-2">
         <label htmlFor={`${p}-broker`}>Em qual corretora você opera?</label>
         <select
           id={`${p}-broker`}
@@ -318,6 +320,8 @@ export default function LeadForm({ idPrefix = "hero" }: { idPrefix?: string }) {
             </option>
           ))}
         </select>
+      </div>
+
       </div>
 
       {/* honeypot — invisível para humanos, atrai bots */}
@@ -340,7 +344,7 @@ export default function LeadForm({ idPrefix = "hero" }: { idPrefix?: string }) {
           </>
         ) : (
           <>
-            Entrar na comunidade
+            Quero entrar no canal
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
               <path
                 d="M5 12h14m-6-6 6 6-6 6"
@@ -355,7 +359,7 @@ export default function LeadForm({ idPrefix = "hero" }: { idPrefix?: string }) {
       </button>
 
       <p className="form-note">
-        Gratuito · Seus dados ficam apenas com a equipe do Fabricio
+        Gratuito · Seus dados ficam só com a equipe do Fabricio
       </p>
     </form>
   );
