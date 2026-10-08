@@ -42,7 +42,7 @@ const HEADERS = [
 // Valores aceitos pra cada campo de qualificação. Qualquer outro vira spam.
 const ALLOWED_SOURCES = ['hero', 'final'];
 const ALLOWED_TRADES  = ['sim', 'comecando', 'ja_operei', 'nao'];
-const ALLOWED_BROKERS = ['genial', 'xp', 'btg', 'toro', 'outra'];
+const ALLOWED_BROKERS = ['genial', 'xp', 'btg', 'toro', 'mesa', 'outra'];
 
 function doPost(e) {
   try {
@@ -191,7 +191,7 @@ function labelTrades_(code) {
 
 function labelBroker_(code) {
   return ({
-    genial: 'Genial', xp: 'XP', btg: 'BTG', toro: 'Toro', outra: 'Outra',
+    genial: 'Genial', xp: 'XP', btg: 'BTG', toro: 'Toro', mesa: 'Mesa Proprietária', outra: 'Outra',
   })[code] || '';
 }
 

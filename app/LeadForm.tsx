@@ -8,7 +8,7 @@ type Status = "idle" | "loading" | "success" | "error";
 // existir; senão, este padrão — evita depender de config do painel.
 const WHATSAPP_URL =
   process.env.NEXT_PUBLIC_WHATSAPP_URL ||
-  "https://chat.whatsapp.com/GIXWd7ctS7nKrbNSJceanc";
+  "https://whatsapp.com/channel/0029Vb8l3Sb3wtb7b7kpyW39";
 
 const TRADES = [
   { v: "", l: "Selecione" },
@@ -24,6 +24,7 @@ const BROKERS = [
   { v: "xp", l: "XP" },
   { v: "btg", l: "BTG" },
   { v: "toro", l: "Toro" },
+  { v: "mesa", l: "Mesa Proprietária" },
   { v: "outra", l: "Outra" },
 ];
 
